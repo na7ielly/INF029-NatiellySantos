@@ -19,6 +19,8 @@
 #include <stdio.h>
 #include "NatiellySantos-20241160033-T1.h" 
 #include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
 
 DataQuebrada quebraData(char data[]);
 
@@ -196,8 +198,25 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
  */
 int q3(char *texto, char c, int isCaseSensitive)
 {
-    int qtdOcorrencias = -1;
+    int qtdOcorrencias = 0;
+    int i;
 
+    // Converter o caractere de busca
+    if (!isCaseSensitive) {
+        c = tolower(removeAcento(c));
+    }
+
+    for (i = 0; texto[i] != '\0'; i++) {
+        char atualChar = texto[i];
+        
+        if (!isCaseSensitive) {
+            atualChar = tolower(removeAcento(atualChar));
+        }
+        
+        if (atualChar == c) {
+            qtdOcorrencias++;
+        }
+    }
     return qtdOcorrencias;
 }
 
@@ -322,3 +341,21 @@ int diasNoMes(int mes, int ano) {
     int diasNoMes[] = {31, (ano % 4 == 0 && (ano % 100 != 0 || ano % 400 == 0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     return diasNoMes[mes - 1];
 }
+
+//Q3
+char removeAcento(char c) {
+    if (strchr("ÀÁÂÃÄÅ", c)) return 'A';
+    else if (strchr("àáâãäå", c)) return 'a';
+    else if (strchr("ÈÉÊË", c)) return 'E';
+    else if (strchr("èéêë", c)) return 'e';
+    else if (strchr("ÌÍÎÏ", c)) return 'I';
+    else if (strchr("ìíîï", c)) return 'i';
+    else if (strchr("ÒÓÔÕÖØ", c)) return 'O';
+    else if (strchr("òóôõöø", c)) return 'o';
+    else if (strchr("ÙÚÛÜ", c)) return 'U';
+    else if (strchr("ùúûü", c)) return 'u';
+    else if (strchr("Ç", c)) return 'C';
+    else if (strchr("ç", c)) return 'c';
+    return c; // Retorna o caractere original se não estiver na lista
+}
+
