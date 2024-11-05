@@ -98,16 +98,12 @@ int q1(char data[])
     } else {
         // Valida o ano
         if (dq.iAno < 1) {
-            printf("Ano inválido (ano negativo ou nulo): %d\n", dq.iAno);
             datavalida = 0;
         }
-
         // Valida o mês
         if (dq.iMes < 1 || dq.iMes > 12) {
-            printf("Mês inválido (fora do intervalo 1-12): %d\n", dq.iMes);
             datavalida = 0;
         }
-
         // Se ainda é uma data válida, continua com validação de dia
         if (datavalida) {
             // Verificação se o ano é bissexto
@@ -117,15 +113,10 @@ int q1(char data[])
             int diasNoMes[] = {31, ehBissexto ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
             if (dq.iDia < 1 || dq.iDia > diasNoMes[dq.iMes - 1]) {
-                printf("Dia inválido para o mês/ano: %d\n", dq.iDia);
                 datavalida = 0;
             }
         }
     }
-
-    // Debug para verificar o valor final de datavalida
-    printf("datavalida = %d\n", datavalida);
-
     // Retorna o valor final de datavalida
     return datavalida;
 }
@@ -146,27 +137,51 @@ int q1(char data[])
  */
 DiasMesesAnos q2(char datainicial[], char datafinal[])
 {
-
     //calcule os dados e armazene nas três variáveis a seguir
-    DiasMesesAnos dma;
+    DiasMesesAnos dma = {0, 0, 0, 1}; // Inicializa os valores assumindo `retorno = 1` para sucesso
 
     if (q1(datainicial) == 0){
       dma.retorno = 2;
       return dma;
+    
     }else if (q1(datafinal) == 0){
       dma.retorno = 3;
       return dma;
-    }else{
-      //verifique se a data final não é menor que a data inicial
-      
-      //calcule a distancia entre as datas
-
-      //se tudo der certo
-      dma.retorno = 1;
-      return dma;
-      
-    }
     
+    }else{
+        // Extrai os valores de dia, mês e ano das datas iniciais e finais
+        DataQuebrada dqInicial = quebraData(datainicial);
+        DataQuebrada dqFinal = quebraData(datafinal);
+
+        //verifique se a data final não é menor que a data inicial, ok
+        if ((dqFinal.iAno < dqInicial.iAno) ||
+        (dqFinal.iAno == dqInicial.iAno && dqFinal.iMes < dqInicial.iMes) ||
+        (dqFinal.iAno == dqInicial.iAno && dqFinal.iMes == dqInicial.iMes && dqFinal.iDia < dqInicial.iDia)) 
+        {
+        dma.retorno = 4; // Retorno 4 para data final anterior à inicial
+        return dma;
+        }
+      
+        //calcule a distancia entre as datas, ok
+        dma.qtdAnos = dqFinal.iAno - dqInicial.iAno;
+        dma.qtdMeses = dqFinal.iMes - dqInicial.iMes;
+        dma.qtdDias = dqFinal.iDia - dqInicial.iDia;
+
+        // Ajusta meses e anos se necessário
+        if (dma.qtdDias < 0) {
+        dma.qtdDias += diasNoMes(dqInicial.iMes, dqInicial.iAno); // Usa dias do mês inicial
+        dma.qtdMeses--;
+        }
+
+        if (dma.qtdMeses < 0) {
+        dma.qtdMeses += 12;
+        dma.qtdAnos--;
+        }
+
+        //se tudo der certo
+        dma.retorno = 1;
+        return dma;
+    }
 }
 
 /*
@@ -301,4 +316,9 @@ int validaDiaMesAno(int dia, int mes, int ano) {
     int diasNoMes[] = {31, ehBissexto(ano) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     
     return dia <= diasNoMes[mes - 1];
+}
+
+int diasNoMes(int mes, int ano) {
+    int diasNoMes[] = {31, (ano % 4 == 0 && (ano % 100 != 0 || ano % 400 == 0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    return diasNoMes[mes - 1];
 }

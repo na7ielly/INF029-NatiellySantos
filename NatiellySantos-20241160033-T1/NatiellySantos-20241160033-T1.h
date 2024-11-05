@@ -49,5 +49,6 @@ int q6(int numerobase, int numerobusca);
 DataQuebrada quebraData(char data[]);
 int ehBissexto(int ano);
 int validaDiaMesAno(int dia, int mes, int ano);
+int diasNoMes(int mes, int ano);
 
 #endif  // TRABALHO1_PRIMEIROULTIMONOMEMATRICULA_H
