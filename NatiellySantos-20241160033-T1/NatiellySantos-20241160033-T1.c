@@ -140,48 +140,54 @@ int q1(char data[])
 DiasMesesAnos q2(char datainicial[], char datafinal[])
 {
     //calcule os dados e armazene nas três variáveis a seguir
-    DiasMesesAnos dma = {0, 0, 0, 1}; // Inicializa os valores assumindo `retorno = 1` para sucesso
+    DiasMesesAnos dma = {0, 0, 0, 1}; // Inicializa os valores, assumindo retorno 1 para sucesso
 
-    if (q1(datainicial) == 0){
-      dma.retorno = 2;
-      return dma;
-    
-    }else if (q1(datafinal) == 0){
-      dma.retorno = 3;
-      return dma;
-    
-    }else{
-        // Extrai os valores de dia, mês e ano das datas iniciais e finais
+    // Valida as datas usando a função q1
+    if (q1(datainicial) == 0) {
+        dma.retorno = 2; // Retorno 2 para data inicial inválida
+        return dma;
+    } else if (q1(datafinal) == 0) {
+        dma.retorno = 3; // Retorno 3 para data final inválida
+        return dma;
+    } else {
+        // Quebra as datas em componentes
         DataQuebrada dqInicial = quebraData(datainicial);
         DataQuebrada dqFinal = quebraData(datafinal);
 
-        //verifique se a data final não é menor que a data inicial, ok
+        // Verifica se a data final é anterior à data inicial
         if ((dqFinal.iAno < dqInicial.iAno) ||
-        (dqFinal.iAno == dqInicial.iAno && dqFinal.iMes < dqInicial.iMes) ||
-        (dqFinal.iAno == dqInicial.iAno && dqFinal.iMes == dqInicial.iMes && dqFinal.iDia < dqInicial.iDia)) 
-        {
-        dma.retorno = 4; // Retorno 4 para data final anterior à inicial
-        return dma;
+            (dqFinal.iAno == dqInicial.iAno && dqFinal.iMes < dqInicial.iMes) ||
+            (dqFinal.iAno == dqInicial.iAno && dqFinal.iMes == dqInicial.iMes && dqFinal.iDia < dqInicial.iDia)) {
+            dma.retorno = 4; // Retorno 4 para data final anterior à inicial
+            return dma;
         }
-      
-        //calcule a distancia entre as datas, ok
+
+        // Calcula a diferença de anos, meses e dias
         dma.qtdAnos = dqFinal.iAno - dqInicial.iAno;
         dma.qtdMeses = dqFinal.iMes - dqInicial.iMes;
         dma.qtdDias = dqFinal.iDia - dqInicial.iDia;
 
-        // Ajusta meses e anos se necessário
+        // Ajuste caso os dias sejam negativos
         if (dma.qtdDias < 0) {
-        dma.qtdDias += diasNoMes(dqInicial.iMes, dqInicial.iAno); // Usa dias do mês inicial
-        dma.qtdMeses--;
+            dma.qtdMeses--; // Subtrai um mês
+
+            // Adiciona os dias do mês anterior à data final
+            dma.qtdDias += diasNoMes(dqFinal.iMes - 1, dqFinal.iAno); 
+
+            // Se o mês anterior for janeiro, ajusta para dezembro do ano anterior
+            if (dqFinal.iMes == 1) {
+                dma.qtdDias += diasNoMes(12, dqFinal.iAno - 1);
+            }
         }
 
+        // Ajuste caso os meses sejam negativos
         if (dma.qtdMeses < 0) {
-        dma.qtdMeses += 12;
-        dma.qtdAnos--;
+            dma.qtdAnos--; // Subtrai um ano
+            dma.qtdMeses += 12; // Ajusta os meses
         }
 
-        //se tudo der certo
-        dma.retorno = 1;
+        // Se tudo estiver certo
+        dma.retorno = 1; // Indica que tudo ocorreu bem
         return dma;
     }
 }
@@ -364,8 +370,24 @@ int validaDiaMesAno(int dia, int mes, int ano) {
 }
 
 int diasNoMes(int mes, int ano) {
-    int diasNoMes[] = {31, (ano % 4 == 0 && (ano % 100 != 0 || ano % 400 == 0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    return diasNoMes[mes - 1];
+    if (mes < 1 || mes > 12) {
+        return 0; // Mês inválido
+    }
+    
+    switch (mes) {
+        case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+            return 31;
+        case 4: case 6: case 9: case 11:
+            return 30;
+        case 2:
+            if ((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0)) {
+                return 29; // Ano bissexto
+            } else {
+                return 28;
+            }
+        default:
+            return 0;
+    }
 }
 
 //Q3
