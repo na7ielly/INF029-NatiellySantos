@@ -285,8 +285,27 @@ int q4(char *strTexto, char *strBusca, int posicoes[30])
  */
 int q5(int num)
 {
+    int invertido = 0;
+    int negativo = 0;
 
-    return num;
+    // Lidar com o caso negativo
+    if (num < 0) {
+        negativo = 1; // Marca que o número original era negativo
+        num = -num;   // Trabalha com o valor absoluto
+    }
+
+    // Inverter o número
+    while (num > 0) {
+        invertido = invertido * 10 + (num % 10); // Extrai o último dígito e constrói o número invertido
+        num /= 10; // Remove o último dígito do número original
+    }
+
+    // Restaura o sinal se o número original era negativo
+    if (negativo) {
+        invertido = -invertido;
+    }
+
+    return invertido;
 }
 
 /*
