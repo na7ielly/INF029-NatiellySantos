@@ -5,10 +5,8 @@ três palavras do usuário e retornar as três palavras. A função main deve im
 essas três palavras.
 */
 
-#include <stdio.h>
 #include "prototipos.h"
-
-#define MAX_LETRAS 20
+#include "constantes.h"
 
 int main() {
     char palavras[3][MAX_LETRAS];  // Vetor de strings para armazenar 3 palavras

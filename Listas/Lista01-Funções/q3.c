@@ -7,7 +7,6 @@ erro. A função main deve solicitar o valor do usuário e imprimir o fatorial d
 se não é possível calcular o fatorial.
 */
 
-#include <stdio.h>
 #include "prototipos.h"
 
 int main(){

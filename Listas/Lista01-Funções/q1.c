@@ -5,7 +5,6 @@ dois valores, enviar para a função soma. A função soma deve realizar a soma 
 o valor. A função main deve imprimir o resultado da soma.
 */
 
-#include <stdio.h>
 #include "prototipos.h" // Onde está armazenado os protótipos para o compilador reconhecer a função ao executar o main
 
 int main(){

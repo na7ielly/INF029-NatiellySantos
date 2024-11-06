@@ -6,7 +6,6 @@ subtração dos três valores (primeiro menos o segundo menos o terceiro) e reto
 o valor. A função main deve imprimir o resultado da subtração.
 */
 
-#include <stdio.h>
 #include "prototipos.h"
 
 int main(){

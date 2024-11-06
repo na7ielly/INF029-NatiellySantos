@@ -4,7 +4,6 @@ Crie um programa que tenha uma função ler 3 Letras. Essa função deve ler tr�
 letras do usuário e retornar as três letras. A função main deve imprimir essas três letras.
 */
 
-#include <stdio.h>
 #include "prototipos.h"
 
 int main(){

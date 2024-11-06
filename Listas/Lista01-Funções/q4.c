@@ -5,7 +5,6 @@ números do usuário e retornar os três números. A função main deve imprimir
 três números. Utilize vetor para fazer o retorno.
 */
 
-#include <stdio.h>
 #include "prototipos.h"
 
 int main(){

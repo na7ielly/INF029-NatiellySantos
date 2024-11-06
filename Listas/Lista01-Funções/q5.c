@@ -5,7 +5,6 @@ quatro números do usuário e retornar os quatro números. A função main deve
 imprimir esses quatro números. Utilize struct para fazer o retorno.
 */
 
-#include <stdio.h>
 #include "prototipos.h"
 
 typedef struct Numeros {
