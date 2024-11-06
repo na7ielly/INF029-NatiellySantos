@@ -97,7 +97,9 @@ int q1(char data[])
     // Verifica se a data quebrada é válida
     if (dq.valido == 0) {
         datavalida = 0;
-    } else {
+    
+    } else { //Outras validções
+        
         // Valida o ano
         if (dq.iAno < 1) {
             datavalida = 0;
@@ -106,12 +108,12 @@ int q1(char data[])
         if (dq.iMes < 1 || dq.iMes > 12) {
             datavalida = 0;
         }
-        // Se ainda é uma data válida, continua com validação de dia
+
         if (datavalida) {
             // Verificação se o ano é bissexto
             int ehBissexto = (dq.iAno % 4 == 0 && (dq.iAno % 100 != 0 || dq.iAno % 400 == 0));
 
-            // Valida o dia com base no mês e no ano
+            // Valida o dia com base no mês e no ano, distingue quando é bissexto
             int diasNoMes[] = {31, ehBissexto ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
             if (dq.iDia < 1 || dq.iDia > diasNoMes[dq.iMes - 1]) {
@@ -119,7 +121,6 @@ int q1(char data[])
             }
         }
     }
-    // Retorna o valor final de datavalida
     return datavalida;
 }
 
@@ -144,30 +145,31 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
 
     // Valida as datas usando a função q1
     if (q1(datainicial) == 0) {
-        dma.retorno = 2; // Retorno 2 para data inicial inválida
+        dma.retorno = 2; // Retorno 2 -> data inicial inválida
         return dma;
+    
     } else if (q1(datafinal) == 0) {
-        dma.retorno = 3; // Retorno 3 para data final inválida
+        dma.retorno = 3; // Retorno 3 -> data final inválida
         return dma;
+    
     } else {
-        // Quebra as datas em componentes
         DataQuebrada dqInicial = quebraData(datainicial);
         DataQuebrada dqFinal = quebraData(datafinal);
 
-        // Verifica se a data final é anterior à data inicial
+        // Verifica se a data final < data inicial
         if ((dqFinal.iAno < dqInicial.iAno) ||
             (dqFinal.iAno == dqInicial.iAno && dqFinal.iMes < dqInicial.iMes) ||
             (dqFinal.iAno == dqInicial.iAno && dqFinal.iMes == dqInicial.iMes && dqFinal.iDia < dqInicial.iDia)) {
-            dma.retorno = 4; // Retorno 4 para data final anterior à inicial
+            dma.retorno = 4; // Retorno 4 -> data final < inicial
             return dma;
         }
 
-        // Calcula a diferença de anos, meses e dias
+        //calcule a distancia entre as datas
         dma.qtdAnos = dqFinal.iAno - dqInicial.iAno;
         dma.qtdMeses = dqFinal.iMes - dqInicial.iMes;
         dma.qtdDias = dqFinal.iDia - dqInicial.iDia;
 
-        // Ajuste caso os dias sejam negativos
+        // Ajuste se os dias forem negativos
         if (dma.qtdDias < 0) {
             dma.qtdMeses--; // Subtrai um mês
 
@@ -180,14 +182,14 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
             }
         }
 
-        // Ajuste caso os meses sejam negativos
+        // Ajuste se os meses forem negativos
         if (dma.qtdMeses < 0) {
-            dma.qtdAnos--; // Subtrai um ano
-            dma.qtdMeses += 12; // Ajusta os meses
+            dma.qtdAnos--; 
+            dma.qtdMeses += 12; 
         }
-
-        // Se tudo estiver certo
-        dma.retorno = 1; // Indica que tudo ocorreu bem
+        
+        //se tudo der certo
+        dma.retorno = 1; 
         return dma;
     }
 }
@@ -207,9 +209,8 @@ int q3(char *texto, char c, int isCaseSensitive)
     int qtdOcorrencias = 0;
     int i;
 
-    // Verificar se o texto tem até 250 caracteres
     if (strlen(texto) > 250) {
-        return 0;  // Retornar 0 se o texto exceder 250 caracteres
+        return 0; 
     }
 
     // Converter o caractere de busca
@@ -257,9 +258,8 @@ int q4(char *strTexto, char *strBusca, int posicoes[30])
     char *ptr = strTexto;
     int buscaLen = strlen(strBusca);
 
-    // Verificar se o texto tem até 250 caracteres
     if (strlen(strTexto) > 250) {
-        return 0;  // Retornar 0 se o texto exceder 250 caracteres
+        return 0;
     }
 
     while ((ptr = strstr(ptr, strBusca)) != NULL) {
@@ -288,19 +288,19 @@ int q5(int num)
     int invertido = 0;
     int negativo = 0;
 
-    // Lidar com o caso negativo
+    // Caso negativo
     if (num < 0) {
-        negativo = 1; // Marca que o número original era negativo
-        num = -num;   // Trabalha com o valor absoluto
+        negativo = 1; // Número original negativo
+        num = -num;  
     }
 
     // Inverter o número
     while (num > 0) {
-        invertido = invertido * 10 + (num % 10); // Extrai o último dígito e constrói o número invertido
+        invertido = invertido * 10 + (num % 10); // Extrai o último dígito e inverte
         num /= 10; // Remove o último dígito do número original
     }
 
-    // Restaura o sinal se o número original era negativo
+    // Volta o sinal se o número original era negativo
     if (negativo) {
         invertido = -invertido;
     }
@@ -319,9 +319,50 @@ int q5(int num)
  */
 int q6(int numerobase, int numerobusca)
 {
-    int qtdOcorrencias;
+    int qtdOcorrencias = 0;
+    int auxBase, auxBusca;
+
+    // Determina o valor do multiplicador para igualar o número de dígitos do número de busca
+    int multiplicador = 1;
+    while (numerobusca / multiplicador >= 10) {
+        multiplicador *= 10;
+    }
+
+    // Percorre todos os dígitos de numerobase
+    while (numerobase > 0) {
+        auxBase = numerobase; // Armazena o valor atual de numerobase
+        auxBusca = numerobusca;
+        int var = 1; // Inicializa var como verdadeiro, se var = 0 significa que não tem correspondência
+
+        // Enquanto houver dígitos em numerobusca...
+        while (auxBusca > 0) {
+
+            if (auxBase == 0) {
+                var = 0; 
+                break;
+            }
+            // Compara o último dígito de auxBase e auxBusca
+            if (auxBase % 10 != auxBusca % 10) {
+                var = 0; 
+                break;
+            }
+            auxBase /= 10; // Remove o último dígito de numerobase
+            auxBusca /= 10; // Remove o último dígito de numerobusca
+        }
+        // Se encontrar uma correspondência, aumenta a quantidade de ocorrências
+        if (var && auxBusca == 0) {
+            qtdOcorrencias++;
+
+            // Avança duas casas
+            numerobase /= multiplicador * 10;
+        } else {
+            // Remove apenas um dígito
+            numerobase /= 10;
+        }
+    }
     return qtdOcorrencias;
 }
+
 
 //FUNÇÕES PARA RESOLUÇÃO DE QUESTÕES
 DataQuebrada quebraData(char data[]) {
