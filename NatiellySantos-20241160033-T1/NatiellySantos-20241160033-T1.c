@@ -462,8 +462,5 @@ char removeAcento(char c) {
     else if (strchr("òóôõöø", c)) return 'o';
     else if (strchr("ÙÚÛÜ", c)) return 'U';
     else if (strchr("ùúûü", c)) return 'u';
-    else if (strchr("Ç", c)) return 'C';
-    else if (strchr("ç", c)) return 'c';
     return c; // Retorna o caractere original se não estiver na lista
 }
-
