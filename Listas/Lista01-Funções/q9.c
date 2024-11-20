@@ -48,7 +48,7 @@ Cliente cadastrarCliente() {
         validaCadastro = 0;
     }
 
-    if (validaCadastro) {
+    if (validaCadastro == 1) {
         printf("Cadastro foi realizado com sucesso.\n");
     } else {
         printf("Cadastro não realizado.\nMotivos:\n");
@@ -80,11 +80,8 @@ int main() {
     return 0;
 }
 
-int validarNome(char nome[]) {
-    if (strlen(nome) < 4) {
-        return 0;
-    }
-    if (strlen(nome) > MAXNOME - 1) {
+int validarNome(char nome[MAXNOME]) {
+    if (strlen(nome) > MAXNOME) {
         return 0;
     }
     return 1;
@@ -97,15 +94,15 @@ int validarSexo(char sexo) {
     return 1;
 }
 
-int validarCPF(char cpf[]) {
-    if (strlen(cpf) != 11) {
+int validarCPF(char cpf[MAXCPF]) {
+    if ((strlen(cpf) > MAXCPF) || (strlen(cpf) < MAXCPF)) {
         return 0;
     }
     return 1;
 }
 
 int validarNascimento(int dia, int mes, int ano) {
-    if ((dia >= 1 && dia <= 31) && (mes >= 1 && mes <= 12) && (ano >= 1900 && ano <= 3000)) {
+    if ((dia >= 1 && dia <= 31) && (mes >= 1 && mes <= 12) && (ano > 0)) {
         return 1;
     }
     return 0;
