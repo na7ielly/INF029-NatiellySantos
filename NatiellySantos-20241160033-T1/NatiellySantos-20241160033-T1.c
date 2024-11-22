@@ -204,27 +204,25 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
  @saida
     Um número n >= 0.
  */
-int q3(char *texto, char c, int isCaseSensitive)
-{
+int q3(char *texto, char c, int isCaseSensitive) {
     int qtdOcorrencias = 0;
-    int i;
 
     if (strlen(texto) > 250) {
-        return 0; 
+        return 0;
     }
 
-    // Converter o caractere de busca
+    // Converter o caractere de busca, se necessário
     if (!isCaseSensitive) {
-        c = tolower(removeAcento(c));
+        c = paraMinusculo(removeAcento(c));
     }
 
-    for (i = 0; texto[i] != '\0'; i++) {
+    for (int i = 0; texto[i] != '\0'; i++) {
         char atualChar = texto[i];
-        
+
         if (!isCaseSensitive) {
-            atualChar = tolower(removeAcento(atualChar));
+            atualChar = paraMinusculo(removeAcento(atualChar));
         }
-        
+
         if (atualChar == c) {
             qtdOcorrencias++;
         }
@@ -452,15 +450,21 @@ int diasNoMes(int mes, int ano) {
 
 //Q3
 char removeAcento(char c) {
-    if (strchr("ÀÁÂÃÄÅ", c)) return 'A';
-    else if (strchr("àáâãäå", c)) return 'a';
-    else if (strchr("ÈÉÊË", c)) return 'E';
-    else if (strchr("èéêë", c)) return 'e';
-    else if (strchr("ÌÍÎÏ", c)) return 'I';
-    else if (strchr("ìíîï", c)) return 'i';
-    else if (strchr("ÒÓÔÕÖØ", c)) return 'O';
-    else if (strchr("òóôõöø", c)) return 'o';
-    else if (strchr("ÙÚÛÜ", c)) return 'U';
-    else if (strchr("ùúûü", c)) return 'u';
+    // Lista manual de substituições
+    char acentuados[] = "ÀÁÂÃÄÅàáâãäåÈÉÊËèéêëÌÍÎÏìíîïÒÓÔÕÖØòóôõöøÙÚÛÜùúûü";
+    char semAcento[] = "AAAAAAaaaaaaEEEEeeeeIIIIiiiiOOOOOOooooooUUUUuuuu";
+
+    for (int i = 0; acentuados[i] != '\0'; i++) {
+        if (c == acentuados[i]) {
+            return semAcento[i];
+        }
+    }
     return c; // Retorna o caractere original se não estiver na lista
+}
+
+char paraMinusculo(char c) {
+    if (c >= 'A' && c <= 'Z') {
+        return c + ('a' - 'A');
+    }
+    return c;
 }

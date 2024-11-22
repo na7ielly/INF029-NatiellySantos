@@ -51,5 +51,6 @@ int ehBissexto(int ano);
 int validaDiaMesAno(int dia, int mes, int ano);
 int diasNoMes(int mes, int ano);
 char removeAcento(char c);
+char paraMinusculo(char c);
 
 #endif  // TRABALHO1_PRIMEIROULTIMONOMEMATRICULA_H
