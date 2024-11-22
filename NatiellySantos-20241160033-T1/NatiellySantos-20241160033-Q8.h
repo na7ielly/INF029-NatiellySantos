@@ -12,8 +12,8 @@
 // Estrutura para representar um jogador
 typedef struct {
     char tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO];
-    char visao_oponente[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO];
-    int navios_restantes;
+    char visaoOponente[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO];
+    int naviosRestantes;
 } Jogador;
 
 void inicializarTabuleiro(char tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO]);

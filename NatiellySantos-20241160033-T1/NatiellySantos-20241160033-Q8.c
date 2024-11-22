@@ -1,46 +1,46 @@
 #include "NatiellySantos-20241160033-Q8.h"
 
 // Configuração global de navios
-int tamanhos_navios[] = {4, 3, 2, 2, 1, 1, 1}; // Navios predefinidos
-int num_navios = sizeof(tamanhos_navios) / sizeof(tamanhos_navios[0]);
+int tamanhosNavios[] = {4, 3, 2, 2, 1, 1, 1}; // Navios predefinidos
+int numNavios = sizeof(tamanhosNavios) / sizeof(tamanhosNavios[0]);
 
 int main() {
     Jogador jogador1, jogador2;
     inicializarTabuleiro(jogador1.tabuleiro);
-    inicializarTabuleiro(jogador1.visao_oponente);
+    inicializarTabuleiro(jogador1.visaoOponente);
     inicializarTabuleiro(jogador2.tabuleiro);
-    inicializarTabuleiro(jogador2.visao_oponente);
+    inicializarTabuleiro(jogador2.visaoOponente);
 
     // Inicializa os navios restantes como a soma total de células ocupadas
-    jogador1.navios_restantes = jogador2.navios_restantes = 0;
-    for (int i = 0; i < num_navios; i++) {
-        jogador1.navios_restantes += tamanhos_navios[i];
-        jogador2.navios_restantes += tamanhos_navios[i];
+    jogador1.naviosRestantes = jogador2.naviosRestantes = 0;
+    for (int i = 0; i < numNavios; i++) {
+        jogador1.naviosRestantes += tamanhosNavios[i];
+        jogador2.naviosRestantes += tamanhosNavios[i];
     }
 
     printf("\nJogador 1, posicione seus navios:\n");
-    for (int i = 0; i < num_navios; i++) posicionarNavio(&jogador1, tamanhos_navios[i]);
+    for (int i = 0; i < numNavios; i++) posicionarNavio(&jogador1, tamanhosNavios[i]);
 
     printf("\nJogador 2, posicione seus navios:\n");
-    for (int i = 0; i < num_navios; i++) posicionarNavio(&jogador2, tamanhos_navios[i]);
+    for (int i = 0; i < numNavios; i++) posicionarNavio(&jogador2, tamanhosNavios[i]);
 
     int turno = 1;
 
     while (1) {
         printf("\nTurno do Jogador %d\n", turno);
         if (turno == 1) {
-            exibirTabuleiro(jogador1.visao_oponente);
+            exibirTabuleiro(jogador1.visaoOponente);
             realizarTiro(&jogador1, &jogador2);
         } else {
-            exibirTabuleiro(jogador2.visao_oponente);
+            exibirTabuleiro(jogador2.visaoOponente);
             realizarTiro(&jogador2, &jogador1);
         }
 
         // Verificação de vitória
-        if (jogador1.navios_restantes == 0) {
+        if (jogador1.naviosRestantes == 0) {
             printf("\nJogador 2 venceu!\n");
             break;
-        } else if (jogador2.navios_restantes == 0) {
+        } else if (jogador2.naviosRestantes == 0) {
             printf("\nJogador 1 venceu!\n");
             break;
         }
@@ -146,12 +146,12 @@ int realizarTiro(Jogador *atirador, Jogador *alvo) {
     if (alvo->tabuleiro[x][y] == 'N') {
         printf("Acertou!\n");
         alvo->tabuleiro[x][y] = '0';
-        atirador->visao_oponente[x][y] = '0';
-        alvo->navios_restantes--;
+        atirador->visaoOponente[x][y] = '0';
+        alvo->naviosRestantes--;
         return 0;
     } else if (alvo->tabuleiro[x][y] == ' ') {
         printf("Errou!\n");
-        atirador->visao_oponente[x][y] = 'X';
+        atirador->visaoOponente[x][y] = 'X';
         return 0;
     } else {
         printf("Você já atirou aqui!\n");

@@ -19,7 +19,6 @@
 #include <stdio.h>
 #include "NatiellySantos-20241160033-T1.h" 
 #include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
 
 DataQuebrada quebraData(char data[]);
