@@ -1,10 +1,11 @@
-/*
-1. (Valor 2.0) Defina modularização no contexto de software. Apresente seu objetivo e suas
+/* Questão 01:
+Defina modularização no contexto de software. Apresente seu objetivo e suas
 vantagens.
 */
 
-/*
-2. (Valor 3.0) Faça um programa em C que contenha:
+
+/* Questão 02:
+Faça um programa em C que contenha:
 
     a. uma função “multiplica” que receba como parâmetros dois números inteiros e retorne o
 resultado da multiplicação;
@@ -31,9 +32,7 @@ int somar(int x, int y){
     return x + y;
 }
 
-//Função main:
-/*
-int main(){
+/* int main(){
 
     int a, b, c, d;
 
@@ -51,8 +50,9 @@ int main(){
 }
 */
 
-/*
-3. (Valor 5.0) Crie um programa que tenha um vetor de caracteres. Esse vetor deve ter um
+
+/* Questão 03:
+Crie um programa que tenha um vetor de caracteres. Esse vetor deve ter um
 tamanho máximo TAM = 10. Nenhum parâmetro pode ser global. O programa deve ter:
 
     a. uma função “insere caractere”. Ela deve solicitar o caractere ao usuário, e inserir no
@@ -142,9 +142,7 @@ int obtemOpcao() {
     return opcao;
 }
 
-//Função main:
-/*
-int main() {
+/*int main() {
     char stringMain[TAM] = {'\0'}; //Inicializa com todas as posições contendo '\0'
     int topo = 0;  // Índice do próximo caractere livre
     bool sair = false;

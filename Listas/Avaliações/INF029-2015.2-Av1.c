@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*
+/* Questão 01:
 
 Ana e suas amigas estão fazendo um trabalho de geometria para o colégio, em que precisam 
 formar vários triângulos, numa cartolina, com algumas varetas de comprimentos diferentes. 
