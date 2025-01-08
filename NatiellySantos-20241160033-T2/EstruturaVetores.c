@@ -4,35 +4,72 @@
 
 #include "EstruturaVetores.h"
 
-int vetorPrincipal[TAM];
-
 /*
 Objetivo: criar estrutura auxiliar na posição 'posicao'.
 com tamanho 'tamanho'
 
-Rertono (int)
+Retorno (int)
     SUCESSO - criado com sucesso
     JA_TEM_ESTRUTURA_AUXILIAR - já tem estrutura na posição
     POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
     SEM_ESPACO_DE_MEMORIA - Sem espaço de memória
     TAMANHO_INVALIDO - o tamanho deve ser maior ou igual a 1
 */
+
+// Estrutura auxiliar
+typedef struct {
+    int *valores;
+    int tamanho;
+    int ocupados;
+} EstruturaAuxiliar;
+
+EstruturaAuxiliar *vetorPrincipal[TAM];
+
+/*
+Objetivo: inicializa o programa. deve ser chamado ao inicio do programa 
+*/
+
+// Função para inicializar as estruturas auxiliares
+void inicializar() {
+    for (int i = 0; i < TAM; i++) {
+        vetorPrincipal[i] = NULL;
+    }
+}
+
+// Função para validar posição
+int ehPosicaoValida(int posicao) {
+    if (posicao < 1 || posicao > 10)
+        return POSICAO_INVALIDA;
+    return SUCESSO;
+}
+
 int criarEstruturaAuxiliar(int posicao, int tamanho)
 {
+    int indice = posicao - 1;
 
-    int retorno = 0;
-    // a posicao pode já existir estrutura auxiliar
-    retorno = JA_TEM_ESTRUTURA_AUXILIAR;
-    // se posição é um valor válido {entre 1 e 10}
-    retorno = POSICAO_INVALIDA;
-    // o tamanho ser muito grande
-    retorno = SEM_ESPACO_DE_MEMORIA;
-    // o tamanho nao pode ser menor que 1
-    retorno = TAMANHO_INVALIDO;
-    // deu tudo certo, crie
-    retorno = SUCESSO;
+    if (ehPosicaoValida(posicao) == POSICAO_INVALIDA)
+        return POSICAO_INVALIDA;
 
-    return retorno;
+    if (vetorPrincipal[indice] != NULL)
+        return JA_TEM_ESTRUTURA_AUXILIAR;
+
+    if (tamanho < 1)
+        return TAMANHO_INVALIDO;
+
+    vetorPrincipal[indice] = (EstruturaAuxiliar *)malloc(sizeof(EstruturaAuxiliar));
+    if (!vetorPrincipal[indice])
+        return SEM_ESPACO_DE_MEMORIA;
+
+    vetorPrincipal[indice]->valores = (int *)malloc(tamanho * sizeof(int));
+    if (!vetorPrincipal[indice]->valores) {
+        free(vetorPrincipal[indice]);
+        vetorPrincipal[indice] = NULL;
+        return SEM_ESPACO_DE_MEMORIA;
+    }
+
+    vetorPrincipal[indice]->tamanho = tamanho;
+    vetorPrincipal[indice]->ocupados = 0;
+    return SUCESSO;
 }
 
 /*
@@ -255,15 +292,6 @@ Retorno
     void.
 */
 void destruirListaEncadeadaComCabecote(No **inicio)
-{
-}
-
-/*
-Objetivo: inicializa o programa. deve ser chamado ao inicio do programa 
-
-*/
-
-void inicializar()
 {
 }
 
