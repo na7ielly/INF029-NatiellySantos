@@ -38,13 +38,18 @@ void inicializar()
     }
 }
 
-// Função para validar posição
-int ehPosicaoValida(int posicao) 
+// se posição é um valor válido {entre 1 e 10}
+int ehPosicaoValida(int posicao)
 {
-    if (posicao < 1 || posicao > 10){
-        return POSICAO_INVALIDA;
+    int retorno = 0;
+    if (posicao < 1 || posicao > 10)
+    {
+        retorno = POSICAO_INVALIDA;
     }
-    return SUCESSO;
+    else
+        retorno = SUCESSO;
+
+    return retorno;
 }
 
 int criarEstruturaAuxiliar(int posicao, int tamanho)
@@ -209,22 +214,8 @@ int excluirNumeroEspecificoDeEstrutura(int posicao, int valor)
     return SUCESSO;
 }
 
-
-// se posição é um valor válido {entre 1 e 10}
-int ehPosicaoValida(int posicao)
-{
-    int retorno = 0;
-    if (posicao < 1 || posicao > 10)
-    {
-        retorno = POSICAO_INVALIDA;
-    }
-    else
-        retorno = SUCESSO;
-
-    return retorno;
-}
-/*
-Objetivo: retorna os números da estrutura auxiliar da posição 'posicao (1..10)'.
+/* Objetivo: 
+Retorna os números da estrutura auxiliar da posição 'posicao (1..10)'.
 os números devem ser armazenados em vetorAux
 
 Retorno (int)
@@ -234,58 +225,99 @@ Retorno (int)
 */
 int getDadosEstruturaAuxiliar(int posicao, int vetorAux[])
 {
+    int indice = posicao - 1;
 
-    int retorno = 0;
+    // Verifica se a posição é válida
+    if (ehPosicaoValida(posicao) == POSICAO_INVALIDA) {
+        return POSICAO_INVALIDA;
+    }
 
-    return retorno;
+    // Verifica se existe estrutura auxiliar na posição
+    if (vetorPrincipal[indice] == NULL) {
+        return SEM_ESTRUTURA_AUXILIAR;
+    }
+
+    // Copia os valores para o vetorAux
+    for (int i = 0; i < vetorPrincipal[indice]->ocupados; i++) {
+        vetorAux[i] = vetorPrincipal[indice]->valores[i];
+    }
+
+    return SUCESSO;
 }
 
-/*
-Objetivo: retorna os números ordenados da estrutura auxiliar da posição 'posicao (1..10)'.
-os números devem ser armazenados em vetorAux
-
-Rertono (int)
-    SUCESSO - recuperado com sucesso os valores da estrutura na posição 'posicao (1..10)'
-    SEM_ESTRUTURA_AUXILIAR - Não tem estrutura auxiliar
-    POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
-*/
-int getDadosOrdenadosEstruturaAuxiliar(int posicao, int vetorAux[])
-{
-
-    int retorno = 0;
-
-    
-    return retorno;
-}
-
-/*
-Objetivo: retorna os números de todas as estruturas auxiliares.
+/* Objetivo: 
+Retorna os números de todas as estruturas auxiliares.
 os números devem ser armazenados em vetorAux
 
 Rertono (int)
     SUCESSO - recuperado com sucesso os valores da estrutura na posição 'posicao'
     TODAS_ESTRUTURAS_AUXILIARES_VAZIAS - todas as estruturas auxiliares estão vazias
 */
-int getDadosDeTodasEstruturasAuxiliares(int vetorAux[])
-{
 
-    int retorno = 0;
-    return retorno;
+// Função de comparação para o qsort
+int comparar(const void *a, const void *b) {
+    return (*(int *)a - *(int *)b);
 }
 
-/*
-Objetivo: retorna os números ordenados de todas as estruturas auxiliares.
+int getDadosDeTodasEstruturasAuxiliares(int vetorAux[]) 
+{
+    int totalNumeros = 0;
+
+    // Percorre todas as posições do vetor principal
+    for (int i = 0; i < TAM; i++) {
+        // Verifica se há uma estrutura auxiliar na posição
+        if (vetorPrincipal[i] != NULL && vetorPrincipal[i]->ocupados > 0) {
+            // Copia os números da estrutura auxiliar para o vetorAux
+            for (int j = 0; j < vetorPrincipal[i]->ocupados; j++) {
+                vetorAux[totalNumeros++] = vetorPrincipal[i]->valores[j];
+            }
+        }
+    }
+
+    // Se nenhuma estrutura auxiliar tiver números
+    if (totalNumeros == 0) {
+        return ESTRUTURA_AUXILIAR_VAZIA;
+    }
+
+    // Ordena o vetor com todos os números usando qsort
+    qsort(vetorAux, totalNumeros, sizeof(int), comparar);
+
+    return SUCESSO;
+}
+
+/* Objetivo: 
+Retorna os números ordenados de todas as estruturas auxiliares.
 os números devem ser armazenados em vetorAux
 
 Rertono (int)
     SUCESSO - recuperado com sucesso os valores da estrutura na posição 'posicao'
     TODAS_ESTRUTURAS_AUXILIARES_VAZIAS - todas as estruturas auxiliares estão vazias
 */
+
 int getDadosOrdenadosDeTodasEstruturasAuxiliares(int vetorAux[])
 {
+    int totalNumeros = 0;
 
-    int retorno = 0;
-    return retorno;
+    // Percorre todas as posições do vetor principal
+    for (int i = 0; i < TAM; i++) {
+        // Verifica se há uma estrutura auxiliar válida e com elementos
+        if (vetorPrincipal[i] != NULL && vetorPrincipal[i]->ocupados > 0) {
+            // Copia os números da estrutura auxiliar para o vetorAux
+            for (int j = 0; j < vetorPrincipal[i]->ocupados; j++) {
+                vetorAux[totalNumeros++] = vetorPrincipal[i]->valores[j];
+            }
+        }
+    }
+
+    // Verifica se todas as estruturas auxiliares estão vazias
+    if (totalNumeros == 0) {
+        return TODAS_ESTRUTURAS_AUXILIARES_VAZIAS;
+    }
+
+    // Ordena o vetor com todos os números usando qsort
+    qsort(vetorAux, totalNumeros, sizeof(int), comparar);
+
+    return SUCESSO;
 }
 
 /*
