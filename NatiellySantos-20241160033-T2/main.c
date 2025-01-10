@@ -58,8 +58,21 @@ int main()
         }
 
         case 2:
-        { //excluir
-            //TODO
+        { 
+            int posicao, ret;
+            printf("Qual a estrutura deseja excluir o último elemento (1..10)? ");
+            scanf("%d", &posicao);
+
+            ret = excluirNumeroDoFinaldaEstrutura(posicao);
+            if (ret == SUCESSO) {
+                printf("Excluído com sucesso.\n");
+            } else if (ret == POSICAO_INVALIDA) {
+                printf("Posição inválida.\n");
+            } else if (ret == SEM_ESTRUTURA_AUXILIAR) {
+                printf("Sem estrutura auxiliar.\n");
+            } else if (ret == ESTRUTURA_AUXILIAR_VAZIA) {
+                printf("Estrutura auxiliar vazia.\n");
+            }
             break;
         }
 
@@ -85,10 +98,10 @@ int main()
                 {
                     //imprimir para os dados para o usuário
                     int i = 0;
-                    for (; i < qtd; i++)
-                    {
-                        printf("%d", vetorAux[i]);
+                    for (int i = 0; i < qtd; i++) {
+                        printf("%d ", vetorAux[i]); // Adicionando espaço entre números
                     }
+                    printf("\n");
                 }
             }
             break;
