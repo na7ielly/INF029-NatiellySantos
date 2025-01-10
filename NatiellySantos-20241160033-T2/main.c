@@ -12,11 +12,11 @@ int menu()
     int op;
     printf("Digite as opção desejada\n");
     printf("0 - Sair\n");
-    printf("1 - Inserir\n");
-    printf("2 - Excluir\n");
-    printf("3 - Listar uma estrutura\n");
-    printf("4 - Dobrar Numero\n");
-    printf("5 - \n");
+    printf("1 - Criar estrutura auxiliar\n");
+    printf("2 - Inserir número na estrutura auxiliar.\n");
+    printf("3 - Excluir o último número da estrutura auxiliar\n");
+    printf("4 - Listar os números de uma estrutura auxiliar\n");
+    printf("5 - Dobrar um número\n");
     scanf("%d", &op);
     return op;
 }
@@ -38,21 +38,27 @@ int main()
             finalizar();
             break;
         }
-        case 1:
-        { //inserir
-            //TODO
-            ret = inserirNumeroEmEstrutura(5, 25);
-            if (ret == SUCESSO)
-            {
-                printf("Inserido com sucesso");
-            }
-            else if (ret == SEM_ESPACO)
-            {
-                printf("Sem Espaço");
-            }
-            else if (ret == SEM_ESTRUTURA_AUXILIAR)
-            {
-                printf("Sem estrutura Auxiliar");
+        case 1: { // Criar estrutura auxiliar
+            int posicao, tamanho, ret;
+
+            printf("Digite a posição da estrutura auxiliar (1..10): ");
+            scanf("%d", &posicao);
+
+            printf("Digite o tamanho da estrutura auxiliar: ");
+            scanf("%d", &tamanho);
+
+            ret = criarEstruturaAuxiliar(posicao, tamanho);
+
+            if (ret == SUCESSO) {
+                printf("Estrutura criada com sucesso.\n");
+            } else if (ret == JA_TEM_ESTRUTURA_AUXILIAR) {
+                printf("Já existe uma estrutura auxiliar nessa posição.\n");
+            } else if (ret == POSICAO_INVALIDA) {
+                printf("Posição inválida.\n");
+            } else if (ret == TAMANHO_INVALIDO) {
+                printf("Tamanho inválido.\n");
+            } else if (ret == SEM_ESPACO_DE_MEMORIA) {
+                printf("Erro de memória.\n");
             }
             break;
         }
