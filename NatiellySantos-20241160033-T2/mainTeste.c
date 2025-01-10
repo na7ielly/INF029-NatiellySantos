@@ -56,6 +56,7 @@ void testeCriarEstrutura()
     printf("%d\n", criarEstruturaAuxiliar(2, 3) == SUCESSO);
     printf("%d\n", criarEstruturaAuxiliar(2, 6) == JA_TEM_ESTRUTURA_AUXILIAR);
 }
+
 /*
 2 [ , , ]
 */
@@ -69,9 +70,11 @@ void testeInserirComEstrutura()
     printf("%d\n", inserirNumeroEmEstrutura(2, 6) == SUCESSO);
     printf("%d\n", inserirNumeroEmEstrutura(2, 5) == SEM_ESPACO);
 }
+
 /*
 2 [4,-2,6]
 */
+
 void testeExcluir()
 {
     show_log("testeExcluir()");
@@ -100,6 +103,7 @@ void testeExcluirNumeroEspecifico()
     printf("%d\n", excluirNumeroEspecificoDeEstrutura(9, 4) == SUCESSO);
     printf("%d\n", excluirNumeroEspecificoDeEstrutura(1, 2) == SEM_ESTRUTURA_AUXILIAR);
 }
+
 /*
 9 [ 4, , ] 
 */
@@ -151,7 +155,8 @@ void testeRetornarTodosNumeros()
     printf("%d\n", inserirNumeroEmEstrutura(2, 3) == SUCESSO);
     printf("%d\n", inserirNumeroEmEstrutura(2, 8) == SUCESSO);
     printf("%d\n", inserirNumeroEmEstrutura(2, 0) == SUCESSO);
-    /*
+
+/*
 2 [3,8,0]
 */
 
@@ -163,10 +168,12 @@ void testeRetornarTodosNumeros()
     printf("%d\n", inserirNumeroEmEstrutura(5, 6) == SUCESSO);
     printf("%d\n", inserirNumeroEmEstrutura(5, 27) == SUCESSO);
     printf("%d\n", inserirNumeroEmEstrutura(5, -6) == SUCESSO);
-    /*
+
+/*
 2 [3,8,0]
 5 [1,34,12,6,27,-6, , , , ]
 */
+
     int vet[9];
 
     printf("%d\n", getDadosDeTodasEstruturasAuxiliares(vet) == SUCESSO);
@@ -207,6 +214,7 @@ void testeRetornarTodosNumeros()
     printf("%d\n", vet[7] == 27);
     printf("%d\n", vet[8] == -6);
 }
+
 /*
 2 [3,8,0]
 5 [1,34,12,6,27,-6, , , , ]
@@ -224,6 +232,7 @@ Rertono (int)
     NOVO_TAMANHO_INVALIDO - novo tamanho não pode ser negativo
     SEM_ESPACO_DE_MEMORIA - erro na alocação do novo valor
 */
+
 void testeMudarTamanhoEstrutura()
 {
     show_log("testeMudarTamanhoEstrutura()");

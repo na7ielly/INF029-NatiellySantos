@@ -490,3 +490,9 @@ void finalizar() {
         }
     }
 }
+
+void dobrar(int *x) {
+    if (x != NULL) {
+        *x = *x * 2;
+    }
+}
