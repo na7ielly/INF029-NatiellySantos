@@ -63,21 +63,24 @@ int main()
             break;
         }
 
-        case 2:
-        { 
-            int posicao, ret;
-            printf("Qual a estrutura deseja excluir o último elemento (1..10)? ");
+        case 2: { // Inserir número na estrutura auxiliar
+            int posicao, valor, ret;
+
+            printf("Digite a posição da estrutura auxiliar (1..10): ");
             scanf("%d", &posicao);
 
-            ret = excluirNumeroDoFinaldaEstrutura(posicao);
+            printf("Digite o valor a ser inserido: ");
+            scanf("%d", &valor);
+
+            ret = inserirNumeroEmEstrutura(posicao, valor);
             if (ret == SUCESSO) {
-                printf("Excluído com sucesso.\n");
+                printf("Valor inserido com sucesso.\n");
+            } else if (ret == SEM_ESPACO) {
+                printf("Sem espaço na estrutura auxiliar.\n");
+            } else if (ret == SEM_ESTRUTURA_AUXILIAR) {
+                printf("Estrutura auxiliar inexistente.\n");
             } else if (ret == POSICAO_INVALIDA) {
                 printf("Posição inválida.\n");
-            } else if (ret == SEM_ESTRUTURA_AUXILIAR) {
-                printf("Sem estrutura auxiliar.\n");
-            } else if (ret == ESTRUTURA_AUXILIAR_VAZIA) {
-                printf("Estrutura auxiliar vazia.\n");
             }
             break;
         }
