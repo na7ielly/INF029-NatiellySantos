@@ -320,8 +320,8 @@ int getDadosOrdenadosDeTodasEstruturasAuxiliares(int vetorAux[])
     return SUCESSO;
 }
 
-/*
-Objetivo: modificar o tamanho da estrutura auxiliar da posição 'posicao' para o novo tamanho 'novoTamanho' + tamanho atual
+/* Objetivo: 
+Modificar o tamanho da estrutura auxiliar da posição 'posicao' para o novo tamanho 'novoTamanho' + tamanho atual
 Suponha o tamanho inicial = x, e novo tamanho = n. O tamanho resultante deve ser x + n. Sendo que x + n deve ser sempre >= 1
 
 Rertono (int)
@@ -331,15 +331,41 @@ Rertono (int)
     NOVO_TAMANHO_INVALIDO - novo tamanho não pode ser negativo
     SEM_ESPACO_DE_MEMORIA - erro na alocação do novo valor
 */
-int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho)
-{
 
-    int retorno = 0;
-    return retorno;
+// Função para modificar o tamanho da estrutura auxiliar
+int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho) {
+    int indice = posicao - 1;
+
+    if (ehPosicaoValida(posicao) == POSICAO_INVALIDA)
+        return POSICAO_INVALIDA;
+
+    if (vetorPrincipal[indice] == NULL)
+        return SEM_ESTRUTURA_AUXILIAR;
+
+    int tamanhoAtual = vetorPrincipal[indice]->tamanho;
+    int tamanhoFinal = tamanhoAtual + novoTamanho;
+
+    if (tamanhoFinal < 1)
+        return NOVO_TAMANHO_INVALIDO;
+
+    int *novoArray = (int *)realloc(vetorPrincipal[indice]->valores, tamanhoFinal * sizeof(int));
+    if (!novoArray)
+        return SEM_ESPACO_DE_MEMORIA;
+
+    vetorPrincipal[indice]->valores = novoArray;
+    vetorPrincipal[indice]->tamanho = tamanhoFinal;
+
+    // Se o novo tamanho for maior, inicializa os novos espaços com zero
+    for (int i = vetorPrincipal[indice]->ocupados; i < tamanhoFinal; i++) {
+        vetorPrincipal[indice]->valores[i] = 0;
+    }
+
+    return SUCESSO;
 }
 
-/*
-Objetivo: retorna a quantidade de elementos preenchidos da estrutura auxiliar da posição 'posicao'.
+
+/* Objetivo: 
+Retorna a quantidade de elementos preenchidos da estrutura auxiliar da posição 'posicao'.
 
 Retorno (int)
     POSICAO_INVALIDA - posição inválida
@@ -347,52 +373,120 @@ Retorno (int)
     ESTRUTURA_AUXILIAR_VAZIA - estrutura auxiliar vazia
     Um número int > 0 correpondente a quantidade de elementos preenchidos da estrutura
 */
-int getQuantidadeElementosEstruturaAuxiliar(int posicao)
-{
 
-    int retorno = 0;
+// Função para obter a quantidade de elementos preenchidos
+int getQuantidadeElementosEstruturaAuxiliar(int posicao) {
+    int indice = posicao - 1;
 
-    return retorno;
+    if (ehPosicaoValida(posicao) == POSICAO_INVALIDA)
+        return POSICAO_INVALIDA;
+
+    if (vetorPrincipal[indice] == NULL)
+        return SEM_ESTRUTURA_AUXILIAR;
+
+    if (vetorPrincipal[indice]->ocupados == 0)
+        return ESTRUTURA_AUXILIAR_VAZIA;
+
+    return vetorPrincipal[indice]->ocupados;
 }
 
-/*
-Objetivo: montar a lista encadeada com cabeçote com todos os números presentes em todas as estruturas.
+/* Objetivo: 
+Montar a lista encadeada com cabeçote com todos os números presentes em todas as estruturas.
 
 Retorno (No*)
     NULL, caso não tenha nenhum número nas listas
     No*, ponteiro para o início da lista com cabeçote
 */
-No *montarListaEncadeadaComCabecote()
-{
 
-    return NULL;
+// Função para montar a lista encadeada com cabeçote
+No *montarListaEncadeadaComCabecote() {
+    No *cabecote = (No *)malloc(sizeof(No));
+    if (!cabecote)
+        return NULL;
+
+    cabecote->conteudo = 0; // Cabeçote não armazena dados significativos
+    cabecote->prox = NULL;
+
+    No *atual = cabecote;
+
+    for (int i = 0; i < TAM; i++) {
+        if (vetorPrincipal[i] != NULL && vetorPrincipal[i]->ocupados > 0) {
+            for (int j = 0; j < vetorPrincipal[i]->ocupados; j++) {
+                No *novoNo = (No *)malloc(sizeof(No));
+                if (!novoNo) {
+                    // Em caso de falha, limpar a lista criada
+                    destruirListaEncadeadaComCabecote(&cabecote);
+                    return NULL;
+                }
+
+                novoNo->conteudo = vetorPrincipal[i]->valores[j];
+                novoNo->prox = NULL;
+                atual->prox = novoNo;
+                atual = novoNo;
+            }
+        }
+    }
+
+    // Retornar NULL se não houver nenhum elemento
+    if (cabecote->prox == NULL) {
+        free(cabecote);
+        return NULL;
+    }
+
+    return cabecote;
 }
 
-/*
-Objetivo: retorna os números da lista enceada com cabeçote armazenando em vetorAux.
+/* Objetivo: 
+Retorna os números da lista enceada com cabeçote armazenando em vetorAux.
 Retorno void
 */
-void getDadosListaEncadeadaComCabecote(No *inicio, int vetorAux[])
-{
+
+// Função para obter os dados da lista encadeada
+void getDadosListaEncadeadaComCabecote(No *inicio, int vetorAux[]) {
+    No *atual = inicio->prox; // Pula o cabeçote
+    int index = 0;
+
+    while (atual != NULL) {
+        vetorAux[index++] = atual->conteudo;
+        atual = atual->prox;
+    }
 }
 
-/*
-Objetivo: Destruir a lista encadeada com cabeçote a partir de início.
+/* Objetivo: 
+Destruir a lista encadeada com cabeçote a partir de início.
 O ponteiro inicio deve ficar com NULL.
 
 Retorno 
     void.
 */
-void destruirListaEncadeadaComCabecote(No **inicio)
-{
+
+// Função para destruir a lista encadeada com cabeçote
+void destruirListaEncadeadaComCabecote(No **inicio) {
+    No *atual = *inicio;
+
+    while (atual != NULL) {
+        No *prox = atual->prox;
+        free(atual);
+        atual = prox;
+    }
+
+    *inicio = NULL;
 }
 
-/*
-Objetivo: finaliza o programa. deve ser chamado ao final do programa 
+
+/* Objetivo: 
+Finaliza o programa. deve ser chamado ao final do programa 
 para poder liberar todos os espaços de memória das estruturas auxiliares.
 
 */
 
-void finalizar()
-{
+// Função para liberar memória das estruturas auxiliares
+void finalizar() {
+    for (int i = 0; i < TAM; i++) {
+        if (vetorPrincipal[i] != NULL) {
+            free(vetorPrincipal[i]->valores);
+            free(vetorPrincipal[i]);
+            vetorPrincipal[i] = NULL;
+        }
+    }
 }
