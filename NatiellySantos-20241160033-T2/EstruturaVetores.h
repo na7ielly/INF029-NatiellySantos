@@ -27,6 +27,9 @@ int getQuantidadeElementosEstruturaAuxiliar(int posicao);
 No *montarListaEncadeadaComCabecote();
 void getDadosListaEncadeadaComCabecote(No *inicio, int vetorAux[]);
 void destruirListaEncadeadaComCabecote(No **inicio);
+void listarTodasAsEstruturas();
+void listarEstruturasOrdenadas();
+void listarTodosNumerosOrdenados();
 
 void inicializar();
 void finalizar();

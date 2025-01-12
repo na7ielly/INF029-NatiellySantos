@@ -7,16 +7,16 @@ int menu();
 
 void dobrar(int *x);
 
-int menu()
-{
+int menu() {
     int op;
-    printf("Digite as opção desejada\n");
+    printf("Digite a opção desejada:\n");
     printf("0 - Sair\n");
     printf("1 - Criar estrutura auxiliar\n");
-    printf("2 - Inserir número na estrutura auxiliar.\n");
-    printf("3 - Excluir o último número da estrutura auxiliar\n");
-    printf("4 - Listar os números de uma estrutura auxiliar\n");
-    printf("5 - Dobrar um número\n");
+    printf("2 - Inserir número na estrutura auxiliar\n");
+    printf("3 - Listar todas as estruturas\n");
+    printf("4 - Listar os números ordenados para cada estrutura auxiliar\n");
+    printf("5 - Listar todos os números de forma ordenada\n");
+    printf("6 - Excluir um número específico\n");
     scanf("%d", &op);
     return op;
 }
@@ -38,7 +38,8 @@ int main()
             finalizar();
             break;
         }
-        case 1: { // Criar estrutura auxiliar
+        case 1: 
+        { // Criar estrutura auxiliar
             int posicao, tamanho, ret;
 
             printf("Digite a posição da estrutura auxiliar (1..10): ");
@@ -63,7 +64,8 @@ int main()
             break;
         }
 
-        case 2: { // Inserir número na estrutura auxiliar
+        case 2: 
+        { // Inserir número na estrutura auxiliar
             int posicao, valor, ret;
 
             printf("Digite a posição da estrutura auxiliar (1..10): ");
@@ -86,6 +88,51 @@ int main()
         }
 
         case 3:
+        { // Listar todas as estruturas
+            listarTodasAsEstruturas();
+            break;
+        }
+
+        case 4:
+        { // Listar os números ordenados para cada estrutura auxiliar
+            listarEstruturasOrdenadas();
+            break;
+        }
+
+        case 5:
+        { // Listar todos os números de forma ordenada
+            listarTodosNumerosOrdenados();
+            break;
+        }
+
+        case 6: 
+        { // Excluir um número específico
+            int posicao, valor, ret;
+
+            printf("Digite a posição da estrutura auxiliar (1..10): ");
+            scanf("%d", &posicao);
+
+            printf("Digite o número a ser excluído: ");
+            scanf("%d", &valor);
+
+            ret = excluirNumeroEspecificoDeEstrutura(posicao, valor);
+
+            if (ret == SUCESSO) {
+                printf("Número excluído com sucesso.\n");
+            } else if (ret == POSICAO_INVALIDA) {
+                printf("Posição inválida.\n");
+            } else if (ret == SEM_ESTRUTURA_AUXILIAR) {
+                printf("Sem estrutura auxiliar na posição especificada.\n");
+            } else if (ret == ESTRUTURA_AUXILIAR_VAZIA) {
+                printf("Estrutura auxiliar vazia.\n");
+            } else if (ret == NUMERO_INEXISTENTE) {
+                printf("Número não encontrado na estrutura.\n");
+            }
+
+            break;
+        }
+
+        case 10:
         { //recuperar dados estrutura auxiliar
             int posicao, retorno;
             printf("Qual a estrutura a ser listada (1..10)?");
@@ -113,21 +160,6 @@ int main()
                     printf("\n");
                 }
             }
-            break;
-        }
-
-        case 10:
-        { //dobrar
-            //ler um numero
-            int valor;
-            scanf("%i", &valor);
-
-            dobrar(&valor);
-
-            //passar para um funcao (void dobrar(...)) que recebe o numero e dobra (EstruturaVetores.c)
-
-            printf("%i", valor);
-
             break;
         }
 

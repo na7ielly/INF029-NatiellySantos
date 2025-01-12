@@ -4,6 +4,11 @@
 
 #include "EstruturaVetores.h"
 
+// Função de comparação para o qsort
+int comparar(const void *a, const void *b) {
+    return (*(int *)a - *(int *)b);
+}
+
 /*Objetivo: 
 Criar estrutura auxiliar na posição 'posicao'.
 com tamanho 'tamanho'
@@ -133,6 +138,82 @@ int inserirNumeroEmEstrutura(int posicao, int valor) {
     return SUCESSO;
 }
 
+void listarTodasAsEstruturas() {
+    for (int i = 0; i < TAM; i++) {
+        printf("Posição %d:\n", i + 1);
+        if (vetorPrincipal[i] == NULL) {
+            printf("  Sem estrutura auxiliar.\n");
+        } else {
+            printf("  Tamanho total: %d\n", vetorPrincipal[i]->tamanho);
+            printf("  Elementos ocupados: %d\n", vetorPrincipal[i]->ocupados);
+            if (vetorPrincipal[i]->ocupados > 0) {
+                printf("  Elementos: ");
+                for (int j = 0; j < vetorPrincipal[i]->ocupados; j++) {
+                    printf("%d ", vetorPrincipal[i]->valores[j]);
+                }
+                printf("\n");
+            } else {
+                printf("  Estrutura auxiliar vazia.\n");
+            }
+        }
+    }
+}
+
+void listarEstruturasOrdenadas() {
+    for (int i = 0; i < TAM; i++) {
+        printf("Posição %d:\n", i + 1);
+        if (vetorPrincipal[i] == NULL) {
+            printf("  Sem estrutura auxiliar.\n");
+        } else if (vetorPrincipal[i]->ocupados == 0) {
+            printf("  Estrutura auxiliar vazia.\n");
+        } else {
+            int qtd = vetorPrincipal[i]->ocupados;
+            int vetorAux[qtd];
+
+            // Copia os elementos para ordenação
+            for (int j = 0; j < qtd; j++) {
+                vetorAux[j] = vetorPrincipal[i]->valores[j];
+            }
+
+            // Ordena os elementos
+            qsort(vetorAux, qtd, sizeof(int), comparar);
+
+            printf("  Elementos ordenados: ");
+            for (int j = 0; j < qtd; j++) {
+                printf("%d ", vetorAux[j]);
+            }
+            printf("\n");
+        }
+    }
+}
+
+void listarTodosNumerosOrdenados() {
+    int totalNumeros = 0;
+    int vetorAux[1000]; // Supondo um limite máximo de números
+
+    // Copia todos os números das estruturas auxiliares para o vetor auxiliar
+    for (int i = 0; i < TAM; i++) {
+        if (vetorPrincipal[i] != NULL && vetorPrincipal[i]->ocupados > 0) {
+            for (int j = 0; j < vetorPrincipal[i]->ocupados; j++) {
+                vetorAux[totalNumeros++] = vetorPrincipal[i]->valores[j];
+            }
+        }
+    }
+
+    if (totalNumeros == 0) {
+        printf("Nenhum número encontrado em todas as estruturas auxiliares.\n");
+        return;
+    }
+
+    // Ordena todos os números
+    qsort(vetorAux, totalNumeros, sizeof(int), comparar);
+
+    printf("Todos os números ordenados: ");
+    for (int i = 0; i < totalNumeros; i++) {
+        printf("%d ", vetorAux[i]);
+    }
+    printf("\n");
+}
 
 /* Objetivo: 
 Excluir o numero 'valor' da estrutura auxiliar no final da estrutura.
@@ -255,11 +336,6 @@ Rertono (int)
     SUCESSO - recuperado com sucesso os valores da estrutura na posição 'posicao'
     TODAS_ESTRUTURAS_AUXILIARES_VAZIAS - todas as estruturas auxiliares estão vazias
 */
-
-// Função de comparação para o qsort
-int comparar(const void *a, const void *b) {
-    return (*(int *)a - *(int *)b);
-}
 
 int getDadosDeTodasEstruturasAuxiliares(int vetorAux[]) 
 {
