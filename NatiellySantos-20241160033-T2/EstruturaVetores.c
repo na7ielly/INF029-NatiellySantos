@@ -261,39 +261,42 @@ Rertono (int)
     POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
 
 */
-int excluirNumeroEspecificoDeEstrutura(int posicao, int valor)
-{
+int excluirNumeroEspecificoDeEstrutura(int posicao, int valor) {
     int indice = posicao - 1;
 
-    if (ehPosicaoValida(posicao) == POSICAO_INVALIDA){
+    if (ehPosicaoValida(posicao) == POSICAO_INVALIDA) {
         return POSICAO_INVALIDA;
     }
 
-    if (vetorPrincipal[indice] == NULL){
+    if (vetorPrincipal[indice] == NULL) {
         return SEM_ESTRUTURA_AUXILIAR;
     }
 
-    if (vetorPrincipal[indice]->ocupados == 0){
+    if (vetorPrincipal[indice]->ocupados == 0) {
         return ESTRUTURA_AUXILIAR_VAZIA;
     }
 
-    // Procurar pelo número na estrutura auxiliar
     int encontrado = 0;
     for (int i = 0; i < vetorPrincipal[indice]->ocupados; i++) {
         if (vetorPrincipal[indice]->valores[i] == valor) {
             encontrado = 1;
-            // Mover os números seguintes para "cima"
+
+            // Mover os números seguintes para "fechar o espaço"
             for (int j = i; j < vetorPrincipal[indice]->ocupados - 1; j++) {
                 vetorPrincipal[indice]->valores[j] = vetorPrincipal[indice]->valores[j + 1];
             }
-            vetorPrincipal[indice]->ocupados--;
-            vetorPrincipal[indice]->valores[vetorPrincipal[indice]->ocupados] = 0; // Limpar o último valor
+
+            vetorPrincipal[indice]->ocupados--; // Atualizar contador de elementos
+            vetorPrincipal[indice]->valores[vetorPrincipal[indice]->ocupados] = 0; // Evitar lixo
+
+            break; // Interromper após encontrar a primeira ocorrência
         }
     }
 
-    if (!encontrado){
+    if (!encontrado) {
         return NUMERO_INEXISTENTE;
     }
+
     return SUCESSO;
 }
 
