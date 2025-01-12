@@ -115,17 +115,7 @@ int inserirNumeroEmEstrutura(int posicao, int valor) {
 
     // Verifica se a estrutura auxiliar já existe
     if (vetorPrincipal[indice] == NULL) {
-      
-        int tamanho;
-        printf("A estrutura auxiliar na posição %d ainda não foi criada.\n", posicao);
-        printf("Digite o tamanho da estrutura auxiliar: ");
-        scanf("%d", &tamanho);
-
-        // Tenta criar a estrutura auxiliar
-        retorno = criarEstruturaAuxiliar(posicao, tamanho);
-        if (retorno != SUCESSO) {
-            return retorno; // Retorna o erro caso não consiga criar
-        }
+        return SEM_ESTRUTURA_AUXILIAR; // Sem criar dinamicamente
     }
 
     // Verifica se há espaço disponível na estrutura auxiliar
@@ -397,6 +387,30 @@ int getDadosOrdenadosDeTodasEstruturasAuxiliares(int vetorAux[])
 
     // Ordena o vetor com todos os números usando qsort
     qsort(vetorAux, totalNumeros, sizeof(int), comparar);
+
+    return SUCESSO;
+}
+
+int getDadosOrdenadosEstruturaAuxiliar(int posicao, int vetorAux[]) {
+    int indice = posicao - 1;
+
+    // Verifica se a posição é válida
+    if (ehPosicaoValida(posicao) == POSICAO_INVALIDA) {
+        return POSICAO_INVALIDA;
+    }
+
+    // Verifica se existe estrutura auxiliar na posição
+    if (vetorPrincipal[indice] == NULL) {
+        return SEM_ESTRUTURA_AUXILIAR;
+    }
+
+    // Copia os valores da estrutura auxiliar para o vetorAux
+    for (int i = 0; i < vetorPrincipal[indice]->ocupados; i++) {
+        vetorAux[i] = vetorPrincipal[indice]->valores[i];
+    }
+
+    // Ordena os valores no vetorAux
+    qsort(vetorAux, vetorPrincipal[indice]->ocupados, sizeof(int), comparar);
 
     return SUCESSO;
 }

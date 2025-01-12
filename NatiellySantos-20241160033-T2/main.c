@@ -17,6 +17,7 @@ int menu() {
     printf("4 - Listar os números ordenados para cada estrutura auxiliar\n");
     printf("5 - Listar todos os números de forma ordenada\n");
     printf("6 - Excluir um número específico\n");
+    printf("7 - Aumentar tamanho de uma estrutura auxiliar\n");
     scanf("%d", &op);
     return op;
 }
@@ -132,9 +133,36 @@ int main()
             break;
         }
 
+        case 7:
+        { // Aumentar tamanho de uma estrutura auxiliar
+            int posicao, tamanhoExtra, ret;
+
+            printf("Digite a posição da estrutura auxiliar (1..10): ");
+            scanf("%d", &posicao);
+
+            printf("Digite o tamanho extra para aumentar a estrutura: ");
+            scanf("%d", &tamanhoExtra);
+
+            ret = modificarTamanhoEstruturaAuxiliar(posicao, tamanhoExtra);
+
+            if (ret == SUCESSO) {
+                printf("Tamanho da estrutura auxiliar aumentado com sucesso.\n");
+            } else if (ret == POSICAO_INVALIDA) {
+                printf("Posição inválida.\n");
+            } else if (ret == SEM_ESTRUTURA_AUXILIAR) {
+                printf("Sem estrutura auxiliar na posição especificada.\n");
+            } else if (ret == NOVO_TAMANHO_INVALIDO) {
+                printf("Tamanho inválido. O tamanho total deve ser >= 1.\n");
+            } else if (ret == SEM_ESPACO_DE_MEMORIA) {
+                printf("Erro de memória ao tentar aumentar o tamanho.\n");
+            }
+            break;
+        }
+
         case 10:
         { //recuperar dados estrutura auxiliar
             int posicao, retorno;
+            
             printf("Qual a estrutura a ser listada (1..10)?");
             scanf("%d", &posicao);
 
