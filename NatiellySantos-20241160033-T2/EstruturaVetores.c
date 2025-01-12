@@ -98,39 +98,41 @@ Rertono (int)
 CONSTANTES
 */
 
-int inserirNumeroEmEstrutura(int posicao, int valor)
-{
+int inserirNumeroEmEstrutura(int posicao, int valor) {
     int retorno = 0;
 
     // Verifica se a posição é válida
-    int posicao_invalida = (ehPosicaoValida(posicao) == POSICAO_INVALIDA);
+    if (ehPosicaoValida(posicao) == POSICAO_INVALIDA) {
+        return POSICAO_INVALIDA;
+    }
 
-    if (posicao_invalida) {
-        retorno = POSICAO_INVALIDA;
-    } else {
-        int indice = posicao - 1;
+    int indice = posicao - 1;
 
-        // Testa se existe a estrutura auxiliar
-        int existeEstruturaAuxiliar = (vetorPrincipal[indice] != NULL);
+    // Verifica se a estrutura auxiliar já existe
+    if (vetorPrincipal[indice] == NULL) {
+      
+        int tamanho;
+        printf("A estrutura auxiliar na posição %d ainda não foi criada.\n", posicao);
+        printf("Digite o tamanho da estrutura auxiliar: ");
+        scanf("%d", &tamanho);
 
-        if (existeEstruturaAuxiliar) {
-            // Verifica se há espaço disponível
-            int temEspaco = (vetorPrincipal[indice]->ocupados < vetorPrincipal[indice]->tamanho);
-
-            if (temEspaco) {
-                // Insere o valor na estrutura auxiliar
-                vetorPrincipal[indice]->valores[vetorPrincipal[indice]->ocupados++] = valor;
-                retorno = SUCESSO;
-            } else {
-                retorno = SEM_ESPACO;
-            }
-        } else {
-            retorno = SEM_ESTRUTURA_AUXILIAR;
+        // Tenta criar a estrutura auxiliar
+        retorno = criarEstruturaAuxiliar(posicao, tamanho);
+        if (retorno != SUCESSO) {
+            return retorno; // Retorna o erro caso não consiga criar
         }
     }
 
-    return retorno;
+    // Verifica se há espaço disponível na estrutura auxiliar
+    if (vetorPrincipal[indice]->ocupados >= vetorPrincipal[indice]->tamanho) {
+        return SEM_ESPACO;
+    }
+
+    // Insere o valor na estrutura auxiliar
+    vetorPrincipal[indice]->valores[vetorPrincipal[indice]->ocupados++] = valor;
+    return SUCESSO;
 }
+
 
 /* Objetivo: 
 Excluir o numero 'valor' da estrutura auxiliar no final da estrutura.
