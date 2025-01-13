@@ -116,7 +116,7 @@ void testeListar()
     printf("%d\n", inserirNumeroEmEstrutura(2, 7) == SUCESSO);
     printf("%d\n", inserirNumeroEmEstrutura(2, -9) == SUCESSO);
 
-    int vet[2];
+    int vet[10];
 
     printf("%d\n", getDadosEstruturaAuxiliar(1, vet) == SEM_ESTRUTURA_AUXILIAR);
     printf("%d\n", getDadosEstruturaAuxiliar(11, vet) == POSICAO_INVALIDA);
@@ -237,7 +237,7 @@ Rertono (int)
 void testeMudarTamanhoEstrutura()
 {
     show_log("testeMudarTamanhoEstrutura()");
-    int vet[1];
+    int vet[10];
     printf("%d\n", modificarTamanhoEstruturaAuxiliar(2, -3) == NOVO_TAMANHO_INVALIDO);
     printf("%d\n", modificarTamanhoEstruturaAuxiliar(2, -4) == NOVO_TAMANHO_INVALIDO);
     printf("%d\n", modificarTamanhoEstruturaAuxiliar(11, 7) == POSICAO_INVALIDA);
@@ -270,7 +270,7 @@ void testeMudarTamanhoEstrutura()
 void testeListaEncadeada()
 {
     show_log("testeListaEncadeada()");
-    int vet[10];
+    int vet[100];
     No *inicio = montarListaEncadeadaComCabecote();
     getDadosListaEncadeadaComCabecote(inicio, vet);
 
