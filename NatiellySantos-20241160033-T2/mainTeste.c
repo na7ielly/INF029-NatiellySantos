@@ -30,7 +30,7 @@ int main()
     finalizar();
 }
 
-int ligado = 0;
+int ligado = 1;
 void show_log(char *str)
 {
     if (ligado)

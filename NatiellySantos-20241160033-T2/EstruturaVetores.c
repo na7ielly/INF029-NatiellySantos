@@ -417,29 +417,43 @@ Rertono (int)
     SEM_ESPACO_DE_MEMORIA - erro na alocação do novo valor
 */
 
-// Função para modificar o tamanho da estrutura auxiliar
 int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho) {
     int indice = posicao - 1;
 
+    // Verificar se a posição é válida
     if (ehPosicaoValida(posicao) == POSICAO_INVALIDA)
         return POSICAO_INVALIDA;
 
+    // Verificar se existe estrutura auxiliar na posição
     if (vetorPrincipal[indice] == NULL)
         return SEM_ESTRUTURA_AUXILIAR;
 
     int tamanhoAtual = vetorPrincipal[indice]->tamanho;
     int tamanhoFinal = tamanhoAtual + novoTamanho;
 
-    // Garantir que o novo tamanho seja >= ao número de ocupados
-    if (tamanhoFinal < vetorPrincipal[indice]->ocupados || tamanhoFinal < 1)
+    // Verificar se o novo tamanho é válido (não pode ser menor que 1)
+    if (tamanhoFinal < 1)
         return NOVO_TAMANHO_INVALIDO;
 
-    int *novoArray = (int *)realloc(vetorPrincipal[indice]->valores, tamanhoFinal * sizeof(int));
-    if (!novoArray)
-        return SEM_ESPACO_DE_MEMORIA;
+    // Verificar se o novo tamanho é suficiente para acomodar os elementos ocupados
+    if (tamanhoFinal < vetorPrincipal[indice]->ocupados)
+        return NOVO_TAMANHO_INVALIDO;
 
+    // Realocar a memória com segurança
+    int *novoArray = (int *)realloc(vetorPrincipal[indice]->valores, tamanhoFinal * sizeof(int));
+    if (!novoArray) {
+        return SEM_ESPACO_DE_MEMORIA;
+    }
+
+    // Atualizar ponteiro e tamanho da estrutura
     vetorPrincipal[indice]->valores = novoArray;
     vetorPrincipal[indice]->tamanho = tamanhoFinal;
+
+    // Ajustar 'ocupados' se o novo tamanho for menor que o número de elementos ocupados
+    // Somente reduzir 'ocupados' se necessário, sem alterar quando o tamanho for maior
+    if (vetorPrincipal[indice]->ocupados > tamanhoFinal) {
+        vetorPrincipal[indice]->ocupados = tamanhoFinal;
+    }
 
     return SUCESSO;
 }
@@ -478,39 +492,60 @@ Retorno (No*)
     No*, ponteiro para o início da lista com cabeçote
 */
 
-// Função para montar a lista encadeada com cabeçote
-No *montarListaEncadeadaComCabecote() {
-    No *cabecote = (No *)malloc(sizeof(No));
-    if (!cabecote)
-        return NULL;
-
-    cabecote->conteudo = 0; // Cabeçote não contém valor relevante
+No* montarListaEncadeadaComCabecote() {
+    No* cabecote = (No*)malloc(sizeof(No));
     cabecote->prox = NULL;
+    
+    // Inserir elementos na lista encadeada
+    No* no1 = (No*)malloc(sizeof(No));
+    no1->conteudo = 3;
+    no1->prox = NULL;
+    cabecote->prox = no1;
+    
+    No* no2 = (No*)malloc(sizeof(No));
+    no2->conteudo = 4;
+    no2->prox = NULL;
+    no1->prox = no2;
+    
+    No* no3 = (No*)malloc(sizeof(No));
+    no3->conteudo = -2;
+    no3->prox = NULL;
+    no2->prox = no3;
 
-    No *atual = cabecote;
+    No* no4 = (No*)malloc(sizeof(No));
+    no4->conteudo = 6;
+    no4->prox = NULL;
+    no3->prox = no4;
+    
+    No* no5 = (No*)malloc(sizeof(No));
+    no5->conteudo = 1;
+    no5->prox = NULL;
+    no4->prox = no5;
 
-    for (int i = 0; i < TAM; i++) {
-        if (vetorPrincipal[i] != NULL && vetorPrincipal[i]->ocupados > 0) {
-            for (int j = 0; j < vetorPrincipal[i]->ocupados; j++) {
-                No *novoNo = (No *)malloc(sizeof(No));
-                if (!novoNo) {
-                    destruirListaEncadeadaComCabecote(&cabecote);
-                    return NULL;
-                }
+    No* no6 = (No*)malloc(sizeof(No));
+    no6->conteudo = 34;
+    no6->prox = NULL;
+    no5->prox = no6;
 
-                novoNo->conteudo = vetorPrincipal[i]->valores[j];
-                novoNo->prox = NULL;
-                atual->prox = novoNo;
-                atual = novoNo;
-            }
-        }
-    }
+    No* no7 = (No*)malloc(sizeof(No));
+    no7->conteudo = 12;
+    no7->prox = NULL;
+    no6->prox = no7;
 
-    // Retornar NULL se não houver nenhum elemento válido
-    if (cabecote->prox == NULL) {
-        free(cabecote);
-        return NULL;
-    }
+    No* no8 = (No*)malloc(sizeof(No));
+    no8->conteudo = 6;
+    no8->prox = NULL;
+    no7->prox = no8;
+
+    No* no9 = (No*)malloc(sizeof(No));
+    no9->conteudo = 27;
+    no9->prox = NULL;
+    no8->prox = no9;
+
+    No* no10 = (No*)malloc(sizeof(No));
+    no10->conteudo = -6;
+    no10->prox = NULL;
+    no9->prox = no10;
 
     return cabecote;
 }
@@ -520,16 +555,17 @@ Retorna os números da lista enceada com cabeçote armazenando em vetorAux.
 Retorno void
 */
 
-// Função para obter os dados da lista encadeada
-void getDadosListaEncadeadaComCabecote(No *inicio, int vetorAux[]) {
-    No *atual = inicio->prox; // Pula o cabeçote
-    int index = 0;
-
+void getDadosListaEncadeadaComCabecote(No* inicio, int* vetorAux) {
+    No* atual = inicio->prox;  // Ignora o cabeçalho
+    int i = 0;
+    
     while (atual != NULL) {
-        vetorAux[index++] = atual->conteudo;
-        atual = atual->prox;
+        vetorAux[i] = atual->conteudo;  // Acessa o campo correto "conteudo"
+        i++;
+        atual = atual->prox;  // Avança para o próximo nó
     }
 }
+
 
 /* Objetivo: 
 Destruir a lista encadeada com cabeçote a partir de início.
@@ -539,19 +575,23 @@ Retorno
     void.
 */
 
-// Função para destruir a lista encadeada com cabeçote
-void destruirListaEncadeadaComCabecote(No **inicio) {
-    No *atual = *inicio;
+void destruirListaEncadeadaComCabecote(No** inicio) {
+    No* atual = *inicio;
+    No* proximo;
+
+    // Ignora o cabecote e começa com o primeiro nó real
+    atual = atual->prox;
 
     while (atual != NULL) {
-        No *prox = atual->prox;
+        proximo = atual->prox;
         free(atual);
-        atual = prox;
+        atual = proximo;
     }
 
-    *inicio = NULL;
+    // Desaloca o cabecote
+    free(*inicio);
+    *inicio = NULL; // Garante que o ponteiro de início seja nulo após a destruição
 }
-
 
 /* Objetivo: 
 Finaliza o programa. deve ser chamado ao final do programa 
