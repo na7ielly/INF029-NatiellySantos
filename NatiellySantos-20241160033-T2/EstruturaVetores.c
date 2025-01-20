@@ -9,7 +9,6 @@ int comparar(const void *a, const void *b) {
     return (*(int *)a - *(int *)b);
 }
 
-
 EstruturaAuxiliar *vetorPrincipal[TAM];
 
 /* Objetivo: 
@@ -330,7 +329,6 @@ Rertono (int)
     SUCESSO - recuperado com sucesso os valores da estrutura na posição 'posicao'
     TODAS_ESTRUTURAS_AUXILIARES_VAZIAS - todas as estruturas auxiliares estão vazias
 */
-
 int getDadosOrdenadosDeTodasEstruturasAuxiliares(int vetorAux[])
 {
     int totalNumeros = 0;
