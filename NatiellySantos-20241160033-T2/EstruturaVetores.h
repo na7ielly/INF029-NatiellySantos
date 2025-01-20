@@ -9,6 +9,24 @@ enum { TODAS_ESTRUTURAS_AUXILIARES_VAZIAS = -11, NOVO_TAMANHO_INVALIDO, NUMERO_I
        ESTRUTURA_AUXILIAR_VAZIA, TAMANHO_INVALIDO, SEM_ESPACO_DE_MEMORIA, POSICAO_INVALIDA,
        JA_TEM_ESTRUTURA_AUXILIAR, SEM_ESTRUTURA_AUXILIAR, SEM_ESPACO, SUCESSO };
 
+/*Objetivo: 
+Criar estrutura auxiliar na posição 'posicao'.
+com tamanho 'tamanho'
+
+Retorno (int)
+    SUCESSO - criado com sucesso
+    JA_TEM_ESTRUTURA_AUXILIAR - já tem estrutura na posição
+    POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
+    SEM_ESPACO_DE_MEMORIA - Sem espaço de memória
+    TAMANHO_INVALIDO - o tamanho deve ser maior ou igual a 1
+*/
+typedef struct 
+{
+    int *valores;
+    int tamanho;
+    int ocupados;
+} EstruturaAuxiliar;
+
 typedef struct reg {
     int conteudo;
     struct reg *prox;
@@ -23,6 +41,7 @@ int getDadosOrdenadosEstruturaAuxiliar(int posicao, int vetorAux[]);
 int getDadosDeTodasEstruturasAuxiliares(int vetorAux[]);
 int getDadosOrdenadosDeTodasEstruturasAuxiliares(int vetorAux[]);
 int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho);
+int modificaTamanho(EstruturaAuxiliar *estrutura, int novoTamanho);
 int getQuantidadeElementosEstruturaAuxiliar(int posicao);
 No *montarListaEncadeadaComCabecote();
 void getDadosListaEncadeadaComCabecote(No *inicio, int vetorAux[]);
@@ -33,6 +52,5 @@ void listarTodosNumerosOrdenados();
 
 void inicializar();
 void finalizar();
-void dobrar(int *x);
 
 #endif  // TRABALHO2_ESTRUTURAVETORES_H

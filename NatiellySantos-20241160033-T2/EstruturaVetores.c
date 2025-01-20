@@ -9,33 +9,12 @@ int comparar(const void *a, const void *b) {
     return (*(int *)a - *(int *)b);
 }
 
-/*Objetivo: 
-Criar estrutura auxiliar na posição 'posicao'.
-com tamanho 'tamanho'
-
-Retorno (int)
-    SUCESSO - criado com sucesso
-    JA_TEM_ESTRUTURA_AUXILIAR - já tem estrutura na posição
-    POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
-    SEM_ESPACO_DE_MEMORIA - Sem espaço de memória
-    TAMANHO_INVALIDO - o tamanho deve ser maior ou igual a 1
-*/
-
-// Estrutura auxiliar
-typedef struct 
-{
-    int *valores;
-    int tamanho;
-    int ocupados;
-} EstruturaAuxiliar;
 
 EstruturaAuxiliar *vetorPrincipal[TAM];
 
 /* Objetivo: 
 Inicializa o programa. deve ser chamado ao inicio do programa 
 */
-
-// Função para inicializar as estruturas auxiliares
 void inicializar() 
 {
     for (int i = 0; i < TAM; i++) {
@@ -102,7 +81,6 @@ Rertono (int)
     POSICAO_INVALIDA - Posição inválida para estrutura auxiliar
 CONSTANTES
 */
-
 int inserirNumeroEmEstrutura(int posicao, int valor) {
     int retorno = 0;
 
@@ -310,7 +288,7 @@ int getDadosEstruturaAuxiliar(int posicao, int vetorAux[]) {
         return SEM_ESTRUTURA_AUXILIAR;
     }
 
-    // Certifique-se de que não acessa além do limite
+    // Certificando de que não acessa além do limite
     for (int i = 0; i < vetorPrincipal[indice]->ocupados; i++) {
         vetorAux[i] = vetorPrincipal[indice]->valores[i];
     }
@@ -326,7 +304,6 @@ Rertono (int)
     SUCESSO - recuperado com sucesso os valores da estrutura na posição 'posicao'
     TODAS_ESTRUTURAS_AUXILIARES_VAZIAS - todas as estruturas auxiliares estão vazias
 */
-
 int getDadosDeTodasEstruturasAuxiliares(int vetorAux[]) {
     int totalNumeros = 0;
 
@@ -344,7 +321,6 @@ int getDadosDeTodasEstruturasAuxiliares(int vetorAux[]) {
 
     return SUCESSO;
 }
-
 
 /* Objetivo: 
 Retorna os números ordenados de todas as estruturas auxiliares.
@@ -416,7 +392,6 @@ Rertono (int)
     NOVO_TAMANHO_INVALIDO - novo tamanho não pode ser negativo
     SEM_ESPACO_DE_MEMORIA - erro na alocação do novo valor
 */
-
 int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho) {
     int indice = posicao - 1;
 
@@ -428,32 +403,46 @@ int modificarTamanhoEstruturaAuxiliar(int posicao, int novoTamanho) {
     if (vetorPrincipal[indice] == NULL)
         return SEM_ESTRUTURA_AUXILIAR;
 
+    // Calcular o novo tamanho final
     int tamanhoAtual = vetorPrincipal[indice]->tamanho;
     int tamanhoFinal = tamanhoAtual + novoTamanho;
 
-    // Verificar se o novo tamanho é válido (não pode ser menor que 1)
+    // Validar o novo tamanho
     if (tamanhoFinal < 1)
         return NOVO_TAMANHO_INVALIDO;
 
-    // Verificar se o novo tamanho é suficiente para acomodar os elementos ocupados
+    // Ajustar a quantidade de ocupados para o novo tamanho, se necessário
     if (tamanhoFinal < vetorPrincipal[indice]->ocupados)
+        vetorPrincipal[indice]->ocupados = tamanhoFinal;  // Ajusta ocupados para o novo tamanho
+
+    // Modificar o tamanho da estrutura
+    int resultado = modificaTamanho(vetorPrincipal[indice], novoTamanho);
+    if (resultado != SUCESSO)
+        return resultado;
+
+    return SUCESSO;
+}
+
+int modificaTamanho(EstruturaAuxiliar *estrutura, int novoTamanho) {
+    // Atualiza o novo tamanho com o valor adicional
+    novoTamanho = estrutura->tamanho + novoTamanho;
+
+    // Validar o novo tamanho
+    if (novoTamanho < 1)
         return NOVO_TAMANHO_INVALIDO;
 
-    // Realocar a memória com segurança
-    int *novoArray = (int *)realloc(vetorPrincipal[indice]->valores, tamanhoFinal * sizeof(int));
-    if (!novoArray) {
+    // Realocar memória
+    int *novoArray = (int *)realloc(estrutura->valores, novoTamanho * sizeof(int));
+    if (!novoArray)
         return SEM_ESPACO_DE_MEMORIA;
-    }
 
-    // Atualizar ponteiro e tamanho da estrutura
-    vetorPrincipal[indice]->valores = novoArray;
-    vetorPrincipal[indice]->tamanho = tamanhoFinal;
+    // Atualizar os campos da estrutura
+    estrutura->valores = novoArray;
+    estrutura->tamanho = novoTamanho;
 
-    // Ajustar 'ocupados' se o novo tamanho for menor que o número de elementos ocupados
-    // Somente reduzir 'ocupados' se necessário, sem alterar quando o tamanho for maior
-    if (vetorPrincipal[indice]->ocupados > tamanhoFinal) {
-        vetorPrincipal[indice]->ocupados = tamanhoFinal;
-    }
+    // Ajustar a quantidade de elementos ocupados se necessário
+    if (estrutura->ocupados > novoTamanho)
+        estrutura->ocupados = novoTamanho;  // Ajuste automático dos ocupados
 
     return SUCESSO;
 }
@@ -467,8 +456,6 @@ Retorno (int)
     ESTRUTURA_AUXILIAR_VAZIA - estrutura auxiliar vazia
     Um número int > 0 correpondente a quantidade de elementos preenchidos da estrutura
 */
-
-// Função para obter a quantidade de elementos preenchidos
 int getQuantidadeElementosEstruturaAuxiliar(int posicao) {
     int indice = posicao - 1;
 
@@ -491,7 +478,6 @@ Retorno (No*)
     NULL, caso não tenha nenhum número nas listas
     No*, ponteiro para o início da lista com cabeçote
 */
-
 No* montarListaEncadeadaComCabecote() {
     No* cabecote = (No*)malloc(sizeof(No));
     cabecote->prox = NULL;
@@ -554,7 +540,6 @@ No* montarListaEncadeadaComCabecote() {
 Retorna os números da lista enceada com cabeçote armazenando em vetorAux.
 Retorno void
 */
-
 void getDadosListaEncadeadaComCabecote(No* inicio, int* vetorAux) {
     No* atual = inicio->prox;  // Ignora o cabeçalho
     int i = 0;
@@ -566,7 +551,6 @@ void getDadosListaEncadeadaComCabecote(No* inicio, int* vetorAux) {
     }
 }
 
-
 /* Objetivo: 
 Destruir a lista encadeada com cabeçote a partir de início.
 O ponteiro inicio deve ficar com NULL.
@@ -574,7 +558,6 @@ O ponteiro inicio deve ficar com NULL.
 Retorno 
     void.
 */
-
 void destruirListaEncadeadaComCabecote(No** inicio) {
     No* atual = *inicio;
     No* proximo;
@@ -596,10 +579,7 @@ void destruirListaEncadeadaComCabecote(No** inicio) {
 /* Objetivo: 
 Finaliza o programa. deve ser chamado ao final do programa 
 para poder liberar todos os espaços de memória das estruturas auxiliares.
-
 */
-
-// Função para liberar memória das estruturas auxiliares
 void finalizar() {
     for (int i = 0; i < TAM; i++) {
         if (vetorPrincipal[i] != NULL) {
@@ -607,11 +587,5 @@ void finalizar() {
             free(vetorPrincipal[i]);
             vetorPrincipal[i] = NULL;
         }
-    }
-}
-
-void dobrar(int *x) {
-    if (x != NULL) {
-        *x = *x * 2;
     }
 }
