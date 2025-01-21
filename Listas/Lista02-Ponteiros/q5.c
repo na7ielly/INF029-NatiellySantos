@@ -9,8 +9,17 @@ na lista já ordenado.
 
 typedef struct no{
 
-int conteúdo;
-struct no *próximo;
+int conteudo;
+struct no *proximo;
 
 }No;
+
+void inserirNo (int conteudoInserido, No *ptr){
+
+No *novoNo;
+novoNo = (No *)malloc(sizeof(No));
+novoNo->conteudo = conteudoInserido;
+novoNo->proximo = prt->proximo;
+prt->proximo = novoNo;
+}
 
