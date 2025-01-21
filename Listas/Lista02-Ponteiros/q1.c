@@ -5,8 +5,7 @@ Deve ser definido também uma variável ponteiro para cada um dos tipos acima. F
 escrita (printf) das variáveis primitivas e depois faça o mesmo utilizando ponteiros.
 */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "funcoesGerais.h"
 
 int main()
 {

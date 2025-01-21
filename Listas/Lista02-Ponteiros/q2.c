@@ -5,8 +5,7 @@ das variáveis um pelo outro. A função main deve ler do usuário os dois valor
 e depois imprimir os valores trocados.
 */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "funcoesGerais.h"
 
 void troca(int *valor1, int *valor2)
 {

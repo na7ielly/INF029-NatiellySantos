@@ -35,9 +35,9 @@ int particiona(int *vetor, int inicio, int fim)
         }
         /*Fazer a troca dos valores da posição inicio e fim, ou seja: vetor [posição inicio] = 10, 
         vetor [posição fim] = 56 */
-        int aux = vetor[inicio];
-        vetor[inicio] = vetor[fim];
-        vetor[fim] = aux;
+        int aux = inicio;
+        inicio = fim;
+        fim = aux;
     }
     return inicio; // Quando a retição terminar, significa que a posição de inicio é igual ao fim.  
 }
