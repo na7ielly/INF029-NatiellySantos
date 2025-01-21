@@ -6,3 +6,11 @@ na lista já ordenado.
 */
 
 #include "funcoesGerais.h"
+
+typedef struct no{
+
+int conteúdo;
+struct no *próximo;
+
+}No;
+
