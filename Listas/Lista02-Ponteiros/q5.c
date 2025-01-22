@@ -26,9 +26,36 @@ novoNo->proximo = *lista;
 *lista = novoNo;
 
 }else{
-printf("Sem memória disponível");
+printf("Sem memória disponível!");
 }
 
 }
 
+//Procedimento: inserir no fim da lista.
 
+void inserirNoFim (No **lista, int conteudoInserido){
+
+No *novoNo, *aux = malloc(sizeof(No));
+
+if(novoNo){
+
+novoNo->conteudo = conteudoInserido;
+novoNo->proximo = NULL;
+
+//Considerando se o nó é o primeiro 
+if(*lista == NULL){
+*lista = novoNo;
+}else{
+aux = *lista;
+
+while(aux->proximo != NULL){
+aux = aux->proximo;
+}
+
+aux->proximo = novoNo;
+
+}else{
+printf("Sem memória disponível!");
+}
+
+}
