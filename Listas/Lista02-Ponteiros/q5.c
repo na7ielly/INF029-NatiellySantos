@@ -8,18 +8,27 @@ na lista já ordenado.
 #include "funcoesGerais.h"
 
 typedef struct no{
-
 int conteudo;
 struct no *proximo;
-
 }No;
 
-void inserirNo (int conteudoInserido, No *ptr){
+//Procedimento: inserir no início da fila.
+
+void inserirNoInicio (No **lista, int conteudoInserido){
 
 No *novoNo;
 novoNo = (No *)malloc(sizeof(No));
+
+if (novoNo){
+
 novoNo->conteudo = conteudoInserido;
-novoNo->proximo = prt->proximo;
-prt->proximo = novoNo;
+novoNo->proximo = *lista;
+*lista = novoNo;
+
+}else{
+printf("Sem memória disponível");
 }
+
+}
+
 
