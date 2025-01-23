@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "funcoesgerais.h": "c",
+        "stdlib.h": "c"
+    }
+}

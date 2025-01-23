@@ -73,6 +73,9 @@ int main()
 
         switch (opcao)
         {
+        case 0:
+            printf("\nSaindo...\n");
+            break;
         case 1:
             topo = push(topo);
             break;
