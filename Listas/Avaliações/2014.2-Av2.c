@@ -96,7 +96,7 @@ elemento ao usuário, e retornar se foi removido. A função main deve imprimir 
 não inserido, e qual foi o elemento removido. Caso julgue necessário, você pode colocar
 um parâmetro extra na função;*/
 
-int remover(){
+int remover(No **lista){
     No *aux = *lista;
     No *anterior = NULL;
     int valor;
@@ -224,7 +224,7 @@ void imprimirOrdenado(No *lista)
     while (aux != NULL)
     {
         // Inserir cada elemento na nova lista de forma ordenada
-        inserirOrdenado(&listaOrdenada, aux->valor);
+        inserirOrdenado(&listaOrdenada);
         aux = aux->proximo;
     }
 
