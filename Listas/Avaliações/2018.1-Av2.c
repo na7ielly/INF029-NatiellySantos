@@ -8,13 +8,13 @@ Você não precisa fazer includes nem colocar o cabeçalho da função no topo d
 
 // Primeira forma: Utilizando struct
 
-/*typedef struct {
+typedef struct {
     int val_A;
     int val_B;
     int val_C;
 } Estrutura;
 
-Estrutura processaDados (){
+Estrutura processaDados1(){
     int val_a = 1, val_b = 2, val_c = 3;
 
     Estrutura aux;
@@ -26,7 +26,7 @@ Estrutura processaDados (){
     return aux;
 }
 
-int main(){
+/*int main(){
     Estrutura dados = processaDados();
 
     printf("Valores: %d %d %d\n", dados.val_A, dados.val_B, dados.val_C);
@@ -36,7 +36,7 @@ int main(){
 
 // Segunda forma: Utilizando ponteiros
 
-/*void processaDados(int *val_A, int *val_B, int *val_C){
+void processaDados2(int *val_A, int *val_B, int *val_C){
  
     int val_a = 1, val_b = 2, val_c = 3;
 
@@ -45,7 +45,7 @@ int main(){
     *val_C = val_c;
 }
 
-int main(){
+/*int main(){
     int val_A, val_B, val_C;
 
     processaDados(&val_A, &val_B, &val_C);
@@ -57,7 +57,7 @@ int main(){
 
 // Terceira forma: Utilizando vetor
 
-/*void processaDados(int *array){
+void processaDados3(int *array){
  
     int val_a = 1, val_b = 2, val_c = 3;
 
@@ -66,7 +66,7 @@ int main(){
     array[2] = val_c;
 }
 
-int main(){
+/*int main(){
 
     int array[3];
 
@@ -86,6 +86,12 @@ typedef struct no{
     int valor;
     struct no *prox;
 }No;
+
+typedef struct{
+    int *valores;
+    int tamanho;
+    int ocupados;
+}EstruturaAuxiliar;
 
 // Função para calcular a média de um vetor
 float calcularMedia(int *vetor, int tamanho) {

@@ -30,7 +30,7 @@ typedef struct
     int menor;
 } VetorNumeros;
 
-VetorNumeros descobreMaiorMenor (VetorNumeros lista){
+VetorNumeros descobreMaiorMenor(VetorNumeros lista){
 
     //Inicializando com o primeiro elemento
     lista.maior = lista.elementos[0];

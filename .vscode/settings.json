@@ -1,6 +1,9 @@
 {
     "files.associations": {
-        "funcoesgerais.h": "c",
+        "array": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "utility": "c",
         "stdlib.h": "c"
     }
 }
